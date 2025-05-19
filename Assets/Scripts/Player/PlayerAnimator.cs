@@ -13,17 +13,6 @@ public class PlayerAnimator : MonoBehaviour
 
     public Animator animator;
 
-    // private enum PlayerState
-    // {
-    //     Idle,
-    //     Walking,
-    //     Attacking,
-    //     TakeDamage,
-    //     Victory,
-    // }
-
-    // private PlayerState currentState = PlayerState.Idle;
-
     private void Start()
     {
         playerController.OnAttacking += PlayerController_OnAttacking;
@@ -55,6 +44,17 @@ public class PlayerAnimator : MonoBehaviour
     public void OnAttackAnimationFinished()
     {
         playerController.canMove = true;
+        playerController.isWalking = true;
+    }
+
+    public void OnTakeDamageAnimationFinished()
+    {
+        playerController.canMove = true;
+    }
+
+    public void OnDeathAnimationFinished()
+    {
+        playerController.Die();
     }
 
 }

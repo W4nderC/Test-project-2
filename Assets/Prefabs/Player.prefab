@@ -48,15 +48,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c57a15f2141f6884091c020c903fe60b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseHealth: 100
+  maxHealth: 100
+  currentHealth: 0
+  baseDamage: 50
+  damage: 10
   moveSpeed: 3
   rotateSpeed: 30
   attackRange: 1.5
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  damage: 10
   inputActions: {fileID: -944628639613478452, guid: 1e1cae18047c33f4bb45e59238394b75, type: 3}
   playerAnimator: {fileID: 3756100839526273443}
+  isWalking: 0
+  canMove: 1
 --- !u!54 &6132334410880753048
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -79,7 +82,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 84

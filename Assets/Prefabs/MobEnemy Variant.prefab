@@ -90,8 +90,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5200a1c517c1d534fb6b48e6be8046e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyController: {fileID: 0}
-  animator: {fileID: 0}
+  enemyController: {fileID: 5774482778346491451}
+  animator: {fileID: 4054204449932631257}
 --- !u!4 &7972287933987620515 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8025268549861323299, guid: a389451827f7c29409b3feb7eb971647, type: 3}
@@ -105,6 +105,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 96982138118371437, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: m_Speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 96982138118371437, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: m_Height
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 96982138118371437, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: m_Radius
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 4975032872082814600, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -145,14 +157,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4977336296122534314, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: m_UseGravity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4977336296122534314, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: m_Constraints
+      value: 84
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606695092592302429, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: attackCooldown
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 5606695092592302429, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
       propertyPath: enemyController
       value: 
       objectReference: {fileID: 5774482778346491451}
+    - target: {fileID: 6907711069798711444, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 4054204449932631257}
+    - target: {fileID: 6907711069798711444, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: attackDistance
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6907711069798711444, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: enemyController
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8218644692715438157, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
       propertyPath: animator
       value: 
       objectReference: {fileID: 4054204449932631257}
+    - target: {fileID: 8218644692715438157, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: maxHealth
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8218644692715438157, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: baseHealth
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8235345433740136318, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
       propertyPath: m_Name
       value: MobEnemy Variant

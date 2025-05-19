@@ -85,8 +85,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5200a1c517c1d534fb6b48e6be8046e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyController: {fileID: 0}
-  animator: {fileID: 0}
+  enemyController: {fileID: 3329152998720643653}
+  animator: {fileID: 5610194587757022594}
 --- !u!4 &4222176228030375938 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7905174323926392977, guid: 775cd3b427d63974d8703d8fc87cc3ce, type: 3}
@@ -105,6 +105,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 96982138118371437, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: m_Speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 96982138118371437, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: m_Height
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 96982138118371437, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: m_Radius
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 4975032872082814600, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -146,9 +158,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5606695092592302429, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: attackCooldown
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5606695092592302429, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
       propertyPath: enemyController
       value: 
       objectReference: {fileID: 3329152998720643653}
+    - target: {fileID: 6907711069798711444, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 5610194587757022594}
+    - target: {fileID: 6907711069798711444, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: attackDistance
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 8218644692715438157, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
       propertyPath: animator
       value: 

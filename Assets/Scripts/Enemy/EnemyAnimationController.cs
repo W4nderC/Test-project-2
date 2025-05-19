@@ -27,6 +27,7 @@ public class EnemyAnimationController : MonoBehaviour
 
     private void EnemyController_OnDeath(object sender, EventArgs e)
     {
+        enemyController.isDead = true;
         animator.SetBool(IS_DEATH, true);
     }
 
@@ -37,12 +38,18 @@ public class EnemyAnimationController : MonoBehaviour
 
     void Update()
     {
-        animator.SetBool(IS_WALKING, enemyController.IsWalking());
+        animator.SetBool(IS_WALKING, enemyController.isWalking);
 
     }
 
     public void OnAttackAnimationFinished()
     {
-        enemyController.canMove = true;
+        print("Filler");
+    }
+
+    public void OnDeathAnimationFinished()
+    {
+        
+        enemyController.Die();
     }
 }
