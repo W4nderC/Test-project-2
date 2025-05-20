@@ -22,7 +22,7 @@ public class EnemyAnimationController : MonoBehaviour
 
     private void EnemyController_OnTakeDamage(object sender, EventArgs e)
     {
-        animator.SetTrigger(IS_TAKE_DAMAGE);
+        animator.SetBool(IS_TAKE_DAMAGE, true);
     }
 
     private void EnemyController_OnDeath(object sender, EventArgs e)
@@ -33,7 +33,7 @@ public class EnemyAnimationController : MonoBehaviour
 
     private void EnemyController_OnAttacking(object sender, EventArgs e)
     {
-        animator.SetTrigger(IS_ATTACKING);
+        animator.SetBool(IS_ATTACKING, true);
     }
 
     void Update()
@@ -44,12 +44,18 @@ public class EnemyAnimationController : MonoBehaviour
 
     public void OnAttackAnimationFinished()
     {
-        print("Filler");
+        animator.SetBool(IS_ATTACKING, false);
+        enemyController.isWalking = true;
+    }
+
+    public void OnTakeDamageAnimationFinished()
+    {
+        animator.SetBool(IS_TAKE_DAMAGE, false);
+        animator.SetBool(IS_ATTACKING, false);
     }
 
     public void OnDeathAnimationFinished()
     {
-        
         enemyController.Die();
     }
 }

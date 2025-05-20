@@ -9,19 +9,22 @@ public class EnemyAttackZone : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        IAllyHumanoid humanoid = other.GetComponent<IAllyHumanoid>();
-        if (humanoid != null && Time.time >= lastAttackTime + attackCooldown)
-        {
+        if (Time.time < lastAttackTime + attackCooldown) return;
 
-            // PlayerController player = other.GetComponent<PlayerController>();
-            // if (player != null)
-            // {
-            //     enemyController.MeleeAnimation();
-            //     player.TakeDamage(enemyController.damage);
-            // }
-            humanoid.MeleeAnimation();
-            humanoid.TakeDamage(enemyController.damage);
-            
+        IAllyHumanoid[] humanoids = other.GetComponents<IAllyHumanoid>();
+        if (humanoids != null && humanoids.Length > 0)
+        {
+            foreach (IAllyHumanoid humanoid in humanoids)
+            {
+                // Check if the humanoid is within attack range
+
+                enemyController.MeleeAttack();
+                humanoid.TakeDamage(enemyController.damage);
+
+            }
+            // enemyController.MeleeAttack();
+            // humanoid.TakeDamage(enemyController.damage);
+
             lastAttackTime = Time.time;
         }
     }

@@ -6,5 +6,5 @@ public interface IAllyHumanoid
 
     public void Die();
     
-    public void MeleeAnimation();
+    public void MeleeAttack();
 }

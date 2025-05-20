@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Linq;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class AiEnemy : MonoBehaviour
@@ -14,35 +15,83 @@ public class AiEnemy : MonoBehaviour
     [SerializeField] private Animator animator;
     private float m_Distance;
 
-    private void OnEnable()
+
+    public float detectionRadius = 10f;
+    // public string enemyTag = "Enemy";
+    private Transform currentTarget;
+    public enum EnemyTags
     {
-        enemyController.isDead = false;
+        Ally,
+        Player,
     }
+    public EnemyTags enemyTags;
 
     void Start()
     {
         enemyController = GetComponent<EnemyController>();
         m_agent = GetComponent<NavMeshAgent>();
-        target = GameObject.FindGameObjectWithTag("Player").transform;
-        
+        // target = GameObject.FindGameObjectWithTag("Player").transform;
+
     }
 
     void Update()
     {
         if (enemyController.isDead) return;
+
+
+        FindNearestEnemy();
+
+        if (currentTarget == null) return;
         
-        m_Distance = Vector3.Distance(m_agent.transform.position, target.position);
+        m_Distance = Vector3.Distance(m_agent.transform.position, currentTarget.position);
+
+        // Check if player is within attack distance
         if (m_Distance < attackDistance)
         {
             m_agent.isStopped = true;
             enemyController.isWalking = false;
+            
+            if (currentTarget != null)
+            {
+                // face the enemy
+                Vector3 direction = (currentTarget.position - transform.position).normalized;
+                transform.rotation = Quaternion.LookRotation(direction);
+            }
         }
         else
         {
             m_agent.isStopped = false;
-            enemyController.isWalking = true;
 
-            m_agent.destination = target.position;
+            m_agent.destination = currentTarget.position;
         }
+
+    }
+    
+
+    void FindNearestEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTags.ToString());
+        // if no enemies found, switch to the next tag
+        if (enemies.Length == 0)
+        {
+            currentTarget = null;
+
+            if ((int)enemyTags == Enum.GetValues(typeof(EnemyTags)).Length - 1) return;
+
+            enemyTags++;
+            return;
+        }
+
+        GameObject nearest = enemies
+            .Where(e => Vector3.Distance(transform.position, e.transform.position) <= detectionRadius)
+            .OrderBy(e => Vector3.Distance(transform.position, e.transform.position))
+            .FirstOrDefault();
+
+        currentTarget = nearest != null ? nearest.transform : null;
+    }
+
+    public Transform GetCurrentTarget()
+    {
+        return currentTarget;
     }
 }

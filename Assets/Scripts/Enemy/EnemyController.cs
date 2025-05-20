@@ -15,14 +15,21 @@ public class EnemyController : MonoBehaviour, IEnemyHumanoid
     public Animator animator;
     public bool canMove = true;
 
+    public LayerMask attackTargetLayer;
+
     public bool isWalking;
     public bool isDead;
+    public bool isAttacking;
+
+    public float attackCooldown = 2f; // cooldown time between attacks
+    private float lastAttackTime = -Mathf.Infinity;
 
     private void OnEnable()
     {
         maxHealth = baseHealth + (LevelGeneratorManager.currentLevel * 5);
         damage = baseDamage + (LevelGeneratorManager.currentLevel * 2);
         currentHealth = maxHealth;
+        isDead = false;
     }
 
     void Start()
@@ -31,7 +38,7 @@ public class EnemyController : MonoBehaviour, IEnemyHumanoid
         GameManager.Instance.OnGameDefeat += GameManager_OnGameDefeat;
         GameManager.Instance.OnGameRestart += GameManager_OnGameRestart;
 
-        currentHealth = maxHealth; isDead = false;
+        currentHealth = maxHealth; 
     }
 
     private void GameManager_OnGameVictory(object sender, EventArgs e)
@@ -68,9 +75,6 @@ public class EnemyController : MonoBehaviour, IEnemyHumanoid
 
     public void Die()
     {
-        // animator.SetTrigger("die");
-        // gameObject.SetActive(false);
-
         ObjectPoolManager.ReturnObjectToPool(gameObject, ObjectPoolManager.PoolType.Enemy);
 
         // player win if all enemies are dead
@@ -80,10 +84,10 @@ public class EnemyController : MonoBehaviour, IEnemyHumanoid
         }
     }
 
-    public void MeleeAnimation()
+    public void MeleeAttack()
     {
         OnAttacking?.Invoke(this, EventArgs.Empty);
+  
     }
-
 
 }

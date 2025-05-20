@@ -22,16 +22,15 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
     [SerializeField] private InputActionAsset inputActions;
     private InputAction moveActions;
     private InputAction lookActions;
-    private InputAction attackActions;
+
     private Vector2 moveAmt;
     private Vector2 lookAmt;
     private Rigidbody rigidbody;
 
     [SerializeField] private PlayerAnimator playerAnimator;
     public bool isWalking;
-
-
     public bool canMove = true;
+    public bool isInvincible = false;
 
     private void OnEnable()
     {
@@ -40,6 +39,9 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
         maxHealth = baseHealth + (LevelGeneratorManager.currentLevel * 5);
         damage = baseDamage + (LevelGeneratorManager.currentLevel * 2);
         currentHealth = maxHealth;
+
+        canMove = true;
+        isInvincible = false;
     }
 
     private void OnDisable()
@@ -120,11 +122,14 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
 
     }
 
-    public void MeleeAnimation()
+    public void MeleeAttack()
     {
+        if (isInvincible) return;
+        
+        isInvincible = true;
         canMove = false;
         isWalking = false;
-
+    
         OnAttacking?.Invoke(this, EventArgs.Empty);
     }
 
@@ -133,21 +138,24 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
         return isWalking;
     }
 
-    public void CanMove()
-    {
-        canMove = true;
-    }
-
     public void TakeDamage(int amount)
     {
+        // player take no damge while attacking or invincible
+        if (isInvincible) return;
+        
+        canMove = false;
 
         OnTakeDamage?.Invoke(this, EventArgs.Empty);
         currentHealth -= amount;
+        
+        // give player invincibility for a short time after taking damage
+        isInvincible = true;
+
         // animator.SetTrigger("hit");
         if (currentHealth <= 0)
         {
             OnDeath?.Invoke(this, EventArgs.Empty);
-            
+
         }
     }
 

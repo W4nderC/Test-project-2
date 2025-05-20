@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c57a15f2141f6884091c020c903fe60b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseHealth: 100
+  baseHealth: 9999
   maxHealth: 100
   currentHealth: 0
   baseDamage: 50
@@ -60,6 +60,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 3756100839526273443}
   isWalking: 0
   canMove: 1
+  isInvincible: 0
 --- !u!54 &6132334410880753048
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -125,7 +126,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &111683135304973436
 Transform:
   m_ObjectHideFlags: 0
@@ -160,7 +161,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.7, y: 1, z: 0.7}
   m_Center: {x: 0, y: 0.5, z: 0.45}
 --- !u!114 &4075021215304063877
 MonoBehaviour:
@@ -176,6 +177,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 1346998524592872180}
   attackCooldown: 1
+  col: {fileID: 0}
 --- !u!1001 &2827355042293840575
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -247,6 +249,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2122972254015428975, guid: 6e70ac2dd964f7e4798ba322509c7e7a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3756100839526273443}
+    - targetCorrespondingSourceObject: {fileID: 2122972254015428975, guid: 6e70ac2dd964f7e4798ba322509c7e7a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6860668133524620661}
+    - targetCorrespondingSourceObject: {fileID: 2122972254015428975, guid: 6e70ac2dd964f7e4798ba322509c7e7a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 793157422079403897}
   m_SourcePrefab: {fileID: 100100000, guid: 6e70ac2dd964f7e4798ba322509c7e7a, type: 3}
 --- !u!4 &3531183600558717290 stripped
 Transform:
@@ -272,6 +280,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 1346998524592872180}
   animator: {fileID: 7485374084516242192}
+--- !u!65 &6860668133524620661
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4200337183666398160}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5, y: 0.95118296, z: 0.5295825}
+  m_Center: {x: 0, y: 0.5, z: 0.65237045}
+--- !u!114 &793157422079403897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4200337183666398160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce7c7da88175d2243806a53000972685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerController: {fileID: 1346998524592872180}
+  attackCooldown: 1
+  col: {fileID: 6860668133524620661}
 --- !u!95 &7485374084516242192 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 4674081637985950127, guid: 6e70ac2dd964f7e4798ba322509c7e7a, type: 3}

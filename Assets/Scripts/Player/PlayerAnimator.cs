@@ -12,17 +12,20 @@ public class PlayerAnimator : MonoBehaviour
     [SerializeField] private PlayerController playerController;
 
     public Animator animator;
+    private AttackZone attackZone;
 
     private void Start()
     {
         playerController.OnAttacking += PlayerController_OnAttacking;
         playerController.OnDeath += PlayerController_OnDeath;
         playerController.OnTakeDamage += PlayerController_OnTakeDamage;
+
+        attackZone = GetComponentInChildren<AttackZone>();
     }
 
     private void PlayerController_OnTakeDamage(object sender, EventArgs e)
     {
-        animator.SetTrigger(IS_TAKE_DAMAGE);
+        animator.SetBool(IS_TAKE_DAMAGE, true);
     }
 
     private void PlayerController_OnDeath(object sender, EventArgs e)
@@ -32,7 +35,7 @@ public class PlayerAnimator : MonoBehaviour
 
     private void PlayerController_OnAttacking(object sender, EventArgs e)
     {
-        animator.SetTrigger(IS_ATTACKING);
+        animator.SetBool(IS_ATTACKING, true);
     }
 
     void Update()
@@ -43,13 +46,18 @@ public class PlayerAnimator : MonoBehaviour
 
     public void OnAttackAnimationFinished()
     {
+        animator.SetBool(IS_ATTACKING, false);
+        animator.SetBool(IS_TAKE_DAMAGE, false);
         playerController.canMove = true;
-        playerController.isWalking = true;
+        playerController.isInvincible = false;
     }
 
     public void OnTakeDamageAnimationFinished()
     {
+        animator.SetBool(IS_TAKE_DAMAGE, false);
+        animator.SetBool(IS_ATTACKING, false);
         playerController.canMove = true;
+        playerController.isInvincible = false;
     }
 
     public void OnDeathAnimationFinished()

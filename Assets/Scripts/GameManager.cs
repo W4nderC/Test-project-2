@@ -15,7 +15,11 @@ public class GameManager : MonoBehaviour
     public GameMode currentMode;
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
+    public GameObject allyPrefab;
     public Transform[] spawnPoints;
+
+    [SerializeField] private Collider playerSide;
+    [SerializeField] private Collider enemySide;
 
     private void Awake()
     {
@@ -46,27 +50,26 @@ public class GameManager : MonoBehaviour
         switch (currentMode)
         {
             case GameMode.OneVsOne:
-                // Instantiate(playerPrefab, spawnPoints[0].position, Quaternion.identity);
-                // Instantiate(enemyPrefab, spawnPoints[1].position, Quaternion.identity);
                 ObjectPoolManager.SpawnObject(playerPrefab, spawnPoints[0].position, Quaternion.identity, ObjectPoolManager.PoolType.Player);
                 ObjectPoolManager.SpawnObject(enemyPrefab, spawnPoints[1].position, Quaternion.identity, ObjectPoolManager.PoolType.Enemy);
                 break;
+
             case GameMode.OneVsMany:
-                // Instantiate(playerPrefab, spawnPoints[0].position, Quaternion.identity);
                 ObjectPoolManager.SpawnObject(playerPrefab, spawnPoints[0].position, Quaternion.identity, ObjectPoolManager.PoolType.Player);
                 for (int i = 1; i < 5; i++)
-                    // Instantiate(enemyPrefab, spawnPoints[i].position, Quaternion.identity);
-                    EnemySpawnManager.Instance.SpawnEnemy(enemyPrefab);
+                    SpawnAreaManager.Instance.SpawnCharactor(enemyPrefab, enemySide, ObjectPoolManager.PoolType.Enemy);
                 break;
+
             case GameMode.ManyVsMany:
                 ObjectPoolManager.SpawnObject(playerPrefab, spawnPoints[0].position, Quaternion.identity, ObjectPoolManager.PoolType.Player);
-                for (int i = 0; i < spawnPoints.Length / 2; i++)
-                    Instantiate(playerPrefab, spawnPoints[i].position, Quaternion.identity);
-                for (int i = spawnPoints.Length / 2; i < spawnPoints.Length; i++)
-                    // Instantiate(enemyPrefab, spawnPoints[i].position, Quaternion.identity);
-                    ObjectPoolManager.SpawnObject(enemyPrefab, spawnPoints[i].position, Quaternion.identity, ObjectPoolManager.PoolType.Enemy);
+                for (int i = 0; i < 3; i++)
+                    SpawnAreaManager.Instance.SpawnCharactor(allyPrefab, playerSide, ObjectPoolManager.PoolType.Ally);
+                for (int i = 0; i < 4; i++)
+                    SpawnAreaManager.Instance.SpawnCharactor(enemyPrefab, enemySide, ObjectPoolManager.PoolType.Enemy);
                 break;
         }
+        GameObject player = FindObjectOfType<PlayerController>().gameObject;
+        CameraControl.SetCameraFollow(player.transform);
     }
 
     public void RestartGame()
