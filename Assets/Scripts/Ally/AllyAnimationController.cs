@@ -39,7 +39,6 @@ public class AllyAnimationController : MonoBehaviour
     void Update()
     {
         animator.SetBool(IS_WALKING, allyController.isWalking);
-
     }
 
     public void OnAttackAnimationFinished()
@@ -52,6 +51,7 @@ public class AllyAnimationController : MonoBehaviour
     {
         animator.SetBool(IS_TAKE_DAMAGE, false);
         animator.SetBool(IS_ATTACKING, false);
+        allyController.isTakeDamage = false;
     }
 
     public void OnDeathAnimationFinished()

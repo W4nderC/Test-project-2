@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
     public bool isWalking;
     public bool canMove = true;
     public bool isInvincible = false;
+    public bool isAttacking;
 
     private void OnEnable()
     {
@@ -124,9 +125,8 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
 
     public void MeleeAttack()
     {
-        if (isInvincible) return;
         
-        isInvincible = true;
+        // isInvincible = true;
         canMove = false;
         isWalking = false;
     

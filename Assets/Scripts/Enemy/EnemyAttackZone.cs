@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyAttackZone : MonoBehaviour
@@ -7,6 +8,13 @@ public class EnemyAttackZone : MonoBehaviour
     public float attackCooldown = 2f; // cooldown time between attacks
     private float lastAttackTime = -Mathf.Infinity;
 
+    [SerializeField] private Collider col;
+
+    void OnEnable()
+    {
+        col.enabled = true;
+    }
+    
     private void OnTriggerStay(Collider other)
     {
         if (Time.time < lastAttackTime + attackCooldown) return;
@@ -17,14 +25,11 @@ public class EnemyAttackZone : MonoBehaviour
             foreach (IAllyHumanoid humanoid in humanoids)
             {
                 // Check if the humanoid is within attack range
-
+                if (enemyController.isTakeDamage || enemyController.isWalking || enemyController.isDead) return;
                 enemyController.MeleeAttack();
                 humanoid.TakeDamage(enemyController.damage);
 
             }
-            // enemyController.MeleeAttack();
-            // humanoid.TakeDamage(enemyController.damage);
-
             lastAttackTime = Time.time;
         }
     }

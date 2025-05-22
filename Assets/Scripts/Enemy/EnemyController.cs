@@ -15,21 +15,43 @@ public class EnemyController : MonoBehaviour, IEnemyHumanoid
     public Animator animator;
     public bool canMove = true;
 
-    public LayerMask attackTargetLayer;
+    [SerializeField] private Collider col;
+    [SerializeField] private EnemyAttackZone atkSpd;
 
     public bool isWalking;
     public bool isDead;
     public bool isAttacking;
+    public bool isTakeDamage;
 
     public float attackCooldown = 2f; // cooldown time between attacks
     private float lastAttackTime = -Mathf.Infinity;
 
+    public float baseScale = 1f;         // Kích thước ở level 1
+    public float scalePerLevel = 0.1f;
+
     private void OnEnable()
     {
-        maxHealth = baseHealth + (LevelGeneratorManager.currentLevel * 5);
-        damage = baseDamage + (LevelGeneratorManager.currentLevel * 2);
+        int level = LevelGeneratorManager.currentLevel;
+        maxHealth = baseHealth + (level * 5);
+        damage = baseDamage + (level * 2);
+
+        //Buff
+        if (level % 2 == 0)
+        {
+            BuffManager.Instance.buffSos[level / 2 - 1].ApplyBuffStat
+            (transform, damage, maxHealth, currentHealth, atkSpd.attackCooldown,
+            out damage, out maxHealth, out currentHealth, out atkSpd.attackCooldown);
+        }
+
         currentHealth = maxHealth;
         isDead = false;
+
+        float scaleMultiplier = baseScale + (level - 1) * scalePerLevel;
+        transform.localScale = Vector3.one * scaleMultiplier;
+
+        col.enabled = true;
+        isWalking = false;
+        isTakeDamage = false;
     }
 
     void Start()
@@ -38,7 +60,7 @@ public class EnemyController : MonoBehaviour, IEnemyHumanoid
         GameManager.Instance.OnGameDefeat += GameManager_OnGameDefeat;
         GameManager.Instance.OnGameRestart += GameManager_OnGameRestart;
 
-        currentHealth = maxHealth; 
+        currentHealth = maxHealth;
     }
 
     private void GameManager_OnGameVictory(object sender, EventArgs e)
@@ -64,12 +86,14 @@ public class EnemyController : MonoBehaviour, IEnemyHumanoid
 
     public void TakeDamage(int amount)
     {
+        isTakeDamage = true;
         OnTakeDamage?.Invoke(this, EventArgs.Empty);
         currentHealth -= amount;
         // animator.SetTrigger("hit");
         if (currentHealth <= 0)
         {
             OnDeath?.Invoke(this, EventArgs.Empty);
+            col.enabled = false;
         }
     }
 
@@ -87,7 +111,6 @@ public class EnemyController : MonoBehaviour, IEnemyHumanoid
     public void MeleeAttack()
     {
         OnAttacking?.Invoke(this, EventArgs.Empty);
-  
     }
 
 }

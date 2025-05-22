@@ -11,6 +11,10 @@ public class GameManager : MonoBehaviour
     public event EventHandler OnGameDefeat;
     public event EventHandler OnGameRestart;
     public event EventHandler OnGameContinue;
+    public event EventHandler OnLocalGamePaused;
+    public event EventHandler OnLocalGameUnpaused;
+    public event EventHandler OnGameWaitingToStart;
+
 
     public GameMode currentMode;
     public GameObject playerPrefab;
@@ -20,6 +24,9 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Collider playerSide;
     [SerializeField] private Collider enemySide;
+    [SerializeField] private InGameUI inGameUI;
+
+    private bool isLocalGamePaused = false;
 
     private void Awake()
     {
@@ -36,16 +43,17 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         OnGameRestart += GameManager_OnGameRestart;
+        OnGameWaitingToStart.Invoke(this, EventArgs.Empty);
 
-        GameStart();
     }
+
 
     private void GameManager_OnGameRestart(object sender, EventArgs e)
     {
         GameStart();
     }
 
-    private void GameStart()
+    public void GameStart()
     {
         switch (currentMode)
         {
@@ -70,6 +78,8 @@ public class GameManager : MonoBehaviour
         }
         GameObject player = FindObjectOfType<PlayerController>().gameObject;
         CameraControl.SetCameraFollow(player.transform);
+
+        inGameUI.UpdateLevelText();
     }
 
     public void RestartGame()
@@ -91,5 +101,35 @@ public class GameManager : MonoBehaviour
     {
         OnGameContinue?.Invoke(this, EventArgs.Empty); print("Continue Game");
         GameStart();
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1f;
+    }
+
+    public void TogglePauseGame()
+    {
+        isLocalGamePaused = !isLocalGamePaused;
+        if (isLocalGamePaused)
+        {
+            PauseGame();
+            OnLocalGamePaused?.Invoke(this, EventArgs.Empty);
+        }
+        else
+        {
+            ResumeGame();
+            OnLocalGameUnpaused?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public void SetMode(GameMode mode)
+    {
+        currentMode = mode;
     }
 }

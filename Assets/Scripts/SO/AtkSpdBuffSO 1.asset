@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d172914616e99ea4e84489be0b97275c, type: 3}
+  m_Name: AtkSpdBuffSO 1
+  m_EditorClassIdentifier: 
+  buffName: ATK SPD UP
+  buffType: 2
+  atk: 0
+  health: 0
+  atkSpeed: 1
+  buffPrefab: {fileID: 7155335147208632822, guid: a94f48f7a81589c44a5e31d3b49b84c6, type: 3}
+  description: Increase ATK SPD

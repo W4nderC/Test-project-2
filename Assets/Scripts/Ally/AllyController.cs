@@ -18,7 +18,9 @@ public class AllyController : MonoBehaviour, IAllyHumanoid
     public bool isWalking;
     public bool isDead;
     public bool isAttacking;
+    public bool isTakeDamage;
 
+    [SerializeField] private Collider col;
     public float attackCooldown = 2f; // cooldown time between attacks
 
     private void OnEnable()
@@ -27,6 +29,10 @@ public class AllyController : MonoBehaviour, IAllyHumanoid
         damage = baseDamage + (LevelGeneratorManager.currentLevel * 2);
         currentHealth = maxHealth;
         isDead = false;
+
+        col.enabled = true;
+        isWalking = false;
+        isTakeDamage = false;
     }
 
     void Start()
@@ -61,12 +67,14 @@ public class AllyController : MonoBehaviour, IAllyHumanoid
 
     public void TakeDamage(int amount)
     {
+        isTakeDamage = true;
         OnTakeDamage?.Invoke(this, EventArgs.Empty);
         currentHealth -= amount;
         // animator.SetTrigger("hit");
         if (currentHealth <= 0)
         {
             OnDeath?.Invoke(this, EventArgs.Empty);
+            col.enabled = false;
         }
     }
 
@@ -78,7 +86,6 @@ public class AllyController : MonoBehaviour, IAllyHumanoid
     public void MeleeAttack()
     {
         OnAttacking?.Invoke(this, EventArgs.Empty);
-  
     }
 
 }

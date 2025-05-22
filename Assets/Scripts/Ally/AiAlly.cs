@@ -46,7 +46,7 @@ public class AiAlly  : MonoBehaviour
         {
             m_agent.isStopped = true;
             allyController.isWalking = false;
-            
+
             if (currentTarget != null)
             {
                 // face the enemy
@@ -57,8 +57,9 @@ public class AiAlly  : MonoBehaviour
         else
         {
             m_agent.isStopped = false;
-
             m_agent.destination = currentTarget.position;
+            
+            allyController.isWalking = true;
         }
     }
     

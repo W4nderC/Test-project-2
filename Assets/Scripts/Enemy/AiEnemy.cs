@@ -38,7 +38,6 @@ public class AiEnemy : MonoBehaviour
     {
         if (enemyController.isDead) return;
 
-
         FindNearestEnemy();
 
         if (currentTarget == null) return;
@@ -50,7 +49,7 @@ public class AiEnemy : MonoBehaviour
         {
             m_agent.isStopped = true;
             enemyController.isWalking = false;
-            
+
             if (currentTarget != null)
             {
                 // face the enemy
@@ -61,8 +60,10 @@ public class AiEnemy : MonoBehaviour
         else
         {
             m_agent.isStopped = false;
-
             m_agent.destination = currentTarget.position;
+            
+
+            enemyController.isWalking = true;
         }
 
     }

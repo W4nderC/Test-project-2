@@ -50,6 +50,7 @@ public class PlayerAnimator : MonoBehaviour
         animator.SetBool(IS_TAKE_DAMAGE, false);
         playerController.canMove = true;
         playerController.isInvincible = false;
+
     }
 
     public void OnTakeDamageAnimationFinished()

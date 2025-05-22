@@ -10,6 +10,7 @@ public class EnemyAnimationController : MonoBehaviour
 
     [SerializeField] private EnemyController enemyController;
 
+
     public Animator animator;
 
 
@@ -39,7 +40,6 @@ public class EnemyAnimationController : MonoBehaviour
     void Update()
     {
         animator.SetBool(IS_WALKING, enemyController.isWalking);
-
     }
 
     public void OnAttackAnimationFinished()
@@ -52,6 +52,7 @@ public class EnemyAnimationController : MonoBehaviour
     {
         animator.SetBool(IS_TAKE_DAMAGE, false);
         animator.SetBool(IS_ATTACKING, false);
+        enemyController.isTakeDamage = false;
     }
 
     public void OnDeathAnimationFinished()

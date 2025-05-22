@@ -7,6 +7,13 @@ public class AllyAttackZone : MonoBehaviour
     public float attackCooldown = 2f; // cooldown time between attacks
     private float lastAttackTime = -Mathf.Infinity;
 
+    [SerializeField] private Collider col;
+
+    void OnEnable()
+    {
+        col.enabled = true;
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (Time.time < lastAttackTime + attackCooldown) return;
@@ -17,6 +24,7 @@ public class AllyAttackZone : MonoBehaviour
             foreach (IEnemyHumanoid humanoid in humanoids)
             {
                 // Check if the humanoid is within attack range
+                if (allyController.isTakeDamage || allyController.isWalking || allyController.isDead) return;
 
                 allyController.MeleeAttack();
                 humanoid.TakeDamage(allyController.damage);
