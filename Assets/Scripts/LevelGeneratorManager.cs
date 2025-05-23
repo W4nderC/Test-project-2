@@ -7,7 +7,6 @@ public class LevelGeneratorManager : MonoBehaviour
 {
 
     public int numberOfLevels = 10;
-
     public static int currentLevel = 1;
 
     private void Start()
@@ -19,9 +18,9 @@ public class LevelGeneratorManager : MonoBehaviour
     {
         if (currentLevel < numberOfLevels)
         {
+            // Everytime player wins, increase the level
             currentLevel++;
         }
-        
     }
 }
 
