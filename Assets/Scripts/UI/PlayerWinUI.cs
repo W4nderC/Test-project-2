@@ -6,9 +6,10 @@ public class PlayerWinUI : MonoBehaviour
 {
     [SerializeField] private Button continueBtn;
     [SerializeField] private Button exitBtn;
+    [SerializeField] private Button homeBtn;
     [SerializeField] private GameObject joystick;
 
-    void Start()
+    private void Awake()
     {
         continueBtn.onClick.AddListener(() =>
         {
@@ -20,7 +21,16 @@ public class PlayerWinUI : MonoBehaviour
         {
             Application.Quit();
         });
+        homeBtn.onClick.AddListener(() =>
+        {
+            GameManager.Instance.InvokeGameWaitingToStart();
+            gameObject.SetActive(false);
+            joystick.SetActive(false);
+        });
+    }
 
+    void Start()
+    {
         GameManager.Instance.OnGameVictory += GameManager_OnGameVictory;
         gameObject.SetActive(false);
         joystick.SetActive(true);

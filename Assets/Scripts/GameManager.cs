@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         OnGameRestart += GameManager_OnGameRestart;
-        OnGameWaitingToStart.Invoke(this, EventArgs.Empty);
+        // OnGameWaitingToStart.Invoke(this, EventArgs.Empty);
     }
 
 
@@ -130,5 +130,10 @@ public class GameManager : MonoBehaviour
     public void SetMode(GameMode mode)
     {
         currentMode = mode;
+    }
+
+    public void InvokeGameWaitingToStart()
+    {
+        OnGameWaitingToStart?.Invoke(this, EventArgs.Empty);
     }
 }

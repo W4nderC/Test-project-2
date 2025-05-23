@@ -22,7 +22,8 @@ public class BuffSO : ScriptableObject
     public void ApplyBuffStat
     (
         Transform pos, int damage, int maxHealth, int currentHealth, float baseAtkSpeed,
-        out int newDmg, out int newMaxHP, out int newCurHP, out float newAtkSpd
+        out int newDmg, out int newMaxHP, out int newCurHP, out float newAtkSpd,
+        bool buffSpawnVisual = true
     )
     {
         newDmg = damage + atk;
@@ -30,9 +31,12 @@ public class BuffSO : ScriptableObject
         newAtkSpd = baseAtkSpeed - atkSpeed * .05f;
         newCurHP = currentHealth + 1;
 
-        //Instantiate buff visual
-        GameObject buffVisual = Instantiate(buffPrefab, pos.position, Quaternion.identity);
-        buffVisual.transform.SetParent(pos);
+        if (buffSpawnVisual)
+        {
+            //Instantiate buff visual
+            GameObject buffVisual = Instantiate(buffPrefab, pos.position, Quaternion.identity);
+            buffVisual.transform.SetParent(pos);
+        }
     }
 // public struct BuffStats
 // {

@@ -6,6 +6,7 @@ public class GamePauseUI : MonoBehaviour
 {
     [SerializeField] private Button resumeBtn;
     [SerializeField] private Button quitBtn;
+    [SerializeField] private Button homeBtn;
     [SerializeField] private GameObject joystick;
 
     private void Awake()
@@ -17,6 +18,13 @@ public class GamePauseUI : MonoBehaviour
         quitBtn.onClick.AddListener(() =>
         {
             Application.Quit();
+        });
+        homeBtn.onClick.AddListener(() =>
+        {
+            GameManager.Instance.InvokeGameWaitingToStart();
+            gameObject.SetActive(false);
+            joystick.SetActive(false);
+            GameManager.Instance.TogglePauseGame();
         });
     }
 

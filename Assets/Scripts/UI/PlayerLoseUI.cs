@@ -6,9 +6,10 @@ public class PlayerLoseUI : MonoBehaviour
 {
     [SerializeField] private Button retryBtn;
     [SerializeField] private Button exitBtn;
+    [SerializeField] private Button homeBtn;
     [SerializeField] private GameObject joystick;
 
-    void Start()
+    private void Awake()
     {
         retryBtn.onClick.AddListener(() =>
         {
@@ -20,7 +21,16 @@ public class PlayerLoseUI : MonoBehaviour
         {
             Application.Quit();
         });
+        homeBtn.onClick.AddListener(() =>
+        {
+            GameManager.Instance.InvokeGameWaitingToStart();
+            gameObject.SetActive(false);
+            joystick.SetActive(false);
+        });
+    }
 
+    void Start()
+    {
         GameManager.Instance.OnGameDefeat += GameManager_OnGameDefeat;
         gameObject.SetActive(false);
         joystick.SetActive(true);

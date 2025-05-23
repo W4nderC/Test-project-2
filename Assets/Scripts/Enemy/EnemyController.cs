@@ -32,18 +32,29 @@ public class EnemyController : MonoBehaviour, IEnemyHumanoid
     public float baseScale = 1f;         // Kích thước ở level 1
     public float scalePerLevel = 0.1f;
 
+    private bool spawnBuffVisual;
+
+    [SerializeField] private HealthBar healthBar;
+
     private void OnEnable()
     {
         int level = LevelGeneratorManager.currentLevel;
         maxHealth = baseHealth + (level * 5);
         damage = baseDamage + (level * 2);
 
+        
         //Buff
-        if (level % 2 == 0)
+        if (level > 1)
         {
-            BuffManager.Instance.buffSos[level / 2 - 1].ApplyBuffStat
-            (transform, damage, maxHealth, currentHealth, atkSpd.attackCooldown,
-            out damage, out maxHealth, out currentHealth, out atkSpd.attackCooldown);
+            AllpyBuffStat(level, 2, 0);
+        }
+        if (level > 3)
+        {
+            AllpyBuffStat(level, 4, 1);
+        }
+        if (level > 5)
+        {
+            AllpyBuffStat(level, 6, 2);
         }
 
         currentHealth = maxHealth;
@@ -55,13 +66,28 @@ public class EnemyController : MonoBehaviour, IEnemyHumanoid
         col.enabled = true;
         isWalking = false;
         isTakeDamage = false;
+
+        healthBar.UpdateHealthBar(maxHealth, currentHealth);
+    }
+
+    private void AllpyBuffStat(int currentLevel, int levelToSpawn, int buffIndex)
+    {
+            spawnBuffVisual = true;
+            if (currentLevel != levelToSpawn)
+            {
+                spawnBuffVisual = false;
+            }
+
+            BuffManager.Instance.buffSos[buffIndex].ApplyBuffStat
+            (transform, damage, maxHealth, currentHealth, atkSpd.attackCooldown,
+            out damage, out maxHealth, out currentHealth, out atkSpd.attackCooldown, spawnBuffVisual);
     }
 
     void Start()
     {
         GameManager.Instance.OnGameVictory += GameManager_OnGameVictory;
         GameManager.Instance.OnGameDefeat += GameManager_OnGameDefeat;
-        GameManager.Instance.OnGameRestart += GameManager_OnGameRestart;
+        GameManager.Instance.OnGameWaitingToStart += GameManager_OnGameWaitingToStart;
 
         currentHealth = maxHealth;
     }
@@ -104,9 +130,12 @@ public class EnemyController : MonoBehaviour, IEnemyHumanoid
         }
     }
 
-    private void GameManager_OnGameRestart(object sender, EventArgs e)
+    private void GameManager_OnGameWaitingToStart(object sender, EventArgs e)
     {
-
+        if (gameObject.activeSelf)
+        {
+            ObjectPoolManager.ReturnObjectToPool(gameObject, ObjectPoolManager.PoolType.Enemy);
+        }
     }
 
     public void TakeDamage(int amount)
@@ -114,6 +143,9 @@ public class EnemyController : MonoBehaviour, IEnemyHumanoid
         isTakeDamage = true;
         OnTakeDamage?.Invoke(this, EventArgs.Empty);
         currentHealth -= amount;
+
+        // update health bar
+        healthBar.UpdateHealthBar(maxHealth, currentHealth);
 
         // play sound
         SoundManager.Instance.PlaySound(SoundType.HURT, transform);

@@ -26,6 +26,8 @@ public class AllyController : MonoBehaviour, IAllyHumanoid
     [SerializeField] private Collider col;
     public float attackCooldown = 2f; // cooldown time between attacks
 
+    [SerializeField] private HealthBar healthBar;
+
     private void OnEnable()
     {
         maxHealth = baseHealth + (LevelGeneratorManager.currentLevel * 5);
@@ -36,13 +38,15 @@ public class AllyController : MonoBehaviour, IAllyHumanoid
         col.enabled = true;
         isWalking = false;
         isTakeDamage = false;
+
+        healthBar.UpdateHealthBar(maxHealth, currentHealth);
     }
 
     void Start()
     {
         GameManager.Instance.OnGameVictory += GameManager_OnGameVictory;
         GameManager.Instance.OnGameDefeat += GameManager_OnGameDefeat;
-        GameManager.Instance.OnGameRestart += GameManager_OnGameRestart;
+        GameManager.Instance.OnGameWaitingToStart += GameManager_OnGameWaitingToStart;
 
         currentHealth = maxHealth; 
     }
@@ -85,9 +89,12 @@ public class AllyController : MonoBehaviour, IAllyHumanoid
         }
     }
 
-    private void GameManager_OnGameRestart(object sender, EventArgs e)
+    private void GameManager_OnGameWaitingToStart(object sender, EventArgs e)
     {
-
+        if (gameObject.activeSelf)
+        {
+            ObjectPoolManager.ReturnObjectToPool(gameObject, ObjectPoolManager.PoolType.Ally);
+        }
     }
 
     public void TakeDamage(int amount)
@@ -96,6 +103,9 @@ public class AllyController : MonoBehaviour, IAllyHumanoid
         OnTakeDamage?.Invoke(this, EventArgs.Empty);
         currentHealth -= amount;
 
+        // update health bar
+        healthBar.UpdateHealthBar(maxHealth, currentHealth);
+        
         // play sound
         SoundManager.Instance.PlaySound(SoundType.HURT, transform);
 

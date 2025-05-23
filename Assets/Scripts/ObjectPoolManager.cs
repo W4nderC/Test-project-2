@@ -16,6 +16,7 @@ public class ObjectPoolManager : MonoBehaviour
     private static GameObject _playerEmpty;
     private static GameObject _enemyEmpty;
     private static GameObject _allyEmpty;
+    private static GameObject _visualFXEmpty;
 
     private static Dictionary<GameObject, ObjectPool<GameObject>> _objectPools;
     private static Dictionary<GameObject, GameObject> _cloneToPrefabMap;
@@ -30,6 +31,8 @@ public class ObjectPoolManager : MonoBehaviour
         Player,
         Enemy,
         Ally,
+
+        VisualFX,
     }
     public static PoolType PoolingType;
 
@@ -58,10 +61,12 @@ public class ObjectPoolManager : MonoBehaviour
         _playerEmpty = new GameObject("Player");
         _enemyEmpty = new GameObject("Enemy");
         _allyEmpty = new GameObject("Ally");
+        _visualFXEmpty = new GameObject("Visual FX");
 
         _playerEmpty.transform.SetParent(_emptyHolder.transform);
         _enemyEmpty.transform.SetParent(_emptyHolder.transform);
         _allyEmpty.transform.SetParent(_emptyHolder.transform);
+        _visualFXEmpty.transform.SetParent(_emptyHolder.transform);
 
         if (_addToDontDestroyOnLoad)
             DontDestroyOnLoad(_particleSystemsEmpty.transform.root);
@@ -129,6 +134,10 @@ public class ObjectPoolManager : MonoBehaviour
                 return _enemyEmpty;
             case PoolType.Ally:
                 return _allyEmpty;
+
+            case PoolType.VisualFX:
+                return _visualFXEmpty;
+
             default:
                 return null;
         }

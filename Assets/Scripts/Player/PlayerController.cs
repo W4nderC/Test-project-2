@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
     public bool isInvincible = false;
     public bool isAttacking;
 
+    [SerializeField] private HealthBar healthBar;
+
     private void OnEnable()
     {
         inputActions.FindActionMap("Player").Enable();
@@ -45,6 +47,8 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
 
         canMove = true;
         isInvincible = false;
+
+        healthBar.UpdateHealthBar(maxHealth, currentHealth);
     }
 
     private void OnDisable()
@@ -65,7 +69,7 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
     {
         GameManager.Instance.OnGameVictory += GameManager_OnGameVictory;
         GameManager.Instance.OnGameDefeat += GameManager_OnGameDefeat;
-        GameManager.Instance.OnGameRestart += GameManager_OnGameRestart;
+        GameManager.Instance.OnGameWaitingToStart += GameManager_OnGameWaitingToStart;
     }
 
     private void GameManager_OnGameDefeat(object sender, EventArgs e)
@@ -84,9 +88,12 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
         }
     }
 
-    private void GameManager_OnGameRestart(object sender, EventArgs e)
+    private void GameManager_OnGameWaitingToStart(object sender, EventArgs e)
     {
-
+        if (gameObject.activeSelf)
+        {
+            ObjectPoolManager.ReturnObjectToPool(gameObject, ObjectPoolManager.PoolType.Player);
+        }
     }
 
     void Update()
@@ -167,6 +174,9 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
 
         OnTakeDamage?.Invoke(this, EventArgs.Empty);
         currentHealth -= amount;
+
+        // update health bar
+        healthBar.UpdateHealthBar(maxHealth, currentHealth);
         
         // give player invincibility for a short time after taking damage
         isInvincible = true;

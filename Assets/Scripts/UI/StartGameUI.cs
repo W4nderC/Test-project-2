@@ -7,6 +7,7 @@ public class StartGameUI : MonoBehaviour
 {
     public TMP_Dropdown dropdown; 
     public Button startButton; 
+    [SerializeField] private GameObject joystick;
 
     private void Awake()
     {
@@ -14,6 +15,7 @@ public class StartGameUI : MonoBehaviour
         {
             GameManager.Instance.GameStart();
             gameObject.SetActive(false);
+            joystick.SetActive(true);
         });
     }
 
