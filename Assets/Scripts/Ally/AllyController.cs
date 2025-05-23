@@ -20,6 +20,9 @@ public class AllyController : MonoBehaviour, IAllyHumanoid
     public bool isAttacking;
     public bool isTakeDamage;
 
+    private float footstepTimer;
+    [SerializeField] private float footstepTimerMax = .5f;
+
     [SerializeField] private Collider col;
     public float attackCooldown = 2f; // cooldown time between attacks
 
@@ -42,6 +45,28 @@ public class AllyController : MonoBehaviour, IAllyHumanoid
         GameManager.Instance.OnGameRestart += GameManager_OnGameRestart;
 
         currentHealth = maxHealth; 
+    }
+
+    private void Update()
+    {
+        if (isDead) return;
+
+        PlayFootstepSound();
+    }
+
+    private void PlayFootstepSound()
+    {
+        footstepTimer -= Time.deltaTime;
+        if (footstepTimer <= 0f)
+        {
+            footstepTimer = footstepTimerMax;
+
+            if (isWalking)
+            {
+                // play sound
+                SoundManager.Instance.PlaySound(SoundType.FOOTSTEPS, transform);
+            }
+        }
     }
 
     private void GameManager_OnGameVictory(object sender, EventArgs e)
@@ -70,6 +95,10 @@ public class AllyController : MonoBehaviour, IAllyHumanoid
         isTakeDamage = true;
         OnTakeDamage?.Invoke(this, EventArgs.Empty);
         currentHealth -= amount;
+
+        // play sound
+        SoundManager.Instance.PlaySound(SoundType.HURT, transform);
+
         // animator.SetTrigger("hit");
         if (currentHealth <= 0)
         {
@@ -86,6 +115,9 @@ public class AllyController : MonoBehaviour, IAllyHumanoid
     public void MeleeAttack()
     {
         OnAttacking?.Invoke(this, EventArgs.Empty);
+
+        // play sound
+        SoundManager.Instance.PlaySound(SoundType.PUNCH, transform);
     }
 
 }

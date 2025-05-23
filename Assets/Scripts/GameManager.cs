@@ -44,7 +44,6 @@ public class GameManager : MonoBehaviour
     {
         OnGameRestart += GameManager_OnGameRestart;
         OnGameWaitingToStart.Invoke(this, EventArgs.Empty);
-
     }
 
 

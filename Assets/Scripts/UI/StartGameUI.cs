@@ -19,7 +19,7 @@ public class StartGameUI : MonoBehaviour
 
     void Start()
     {
-        gameObject.SetActive(false);
+        gameObject.SetActive(true);
 
         if (dropdown != null)
         {

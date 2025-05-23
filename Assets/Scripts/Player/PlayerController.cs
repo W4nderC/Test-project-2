@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
     public int baseHealth = 100;
     public int maxHealth;
     public int currentHealth;
-
     public int baseDamage = 50;
     public int damage;
 
@@ -26,6 +25,9 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
     private Vector2 moveAmt;
     private Vector2 lookAmt;
     private Rigidbody rigidbody;
+
+    private float footstepTimer;
+    [SerializeField] private float footstepTimerMax = .5f;
 
     [SerializeField] private PlayerAnimator playerAnimator;
     public bool isWalking;
@@ -101,7 +103,7 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
         {
             canMove = true;
             Walking(moveDirection);
-            Rotating(moveDirection);
+            Rotating(moveDirection);            
         }
     }
 
@@ -109,9 +111,24 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
     {
         // set animator variables
         isWalking = moveAmt != Vector2.zero;
-
-
         rigidbody.MovePosition(rigidbody.position + moveDir * moveSpeed * Time.fixedDeltaTime);
+
+        PlayFootstepSound();
+    }
+
+    private void PlayFootstepSound()
+    {
+        footstepTimer -= Time.deltaTime;
+        if (footstepTimer <= 0f)
+        {
+            footstepTimer = footstepTimerMax;
+
+            if (isWalking)
+            {
+                // play sound
+                SoundManager.Instance.PlaySound(SoundType.FOOTSTEPS, transform);
+            }
+        }
     }
 
     private void Rotating(Vector3 moveDir)
@@ -125,12 +142,15 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
 
     public void MeleeAttack()
     {
-        
+
         // isInvincible = true;
         canMove = false;
         isWalking = false;
-    
+
         OnAttacking?.Invoke(this, EventArgs.Empty);
+        
+        // play sound
+        SoundManager.Instance.PlaySound(SoundType.PUNCH, transform);
     }
 
     public bool IsWalking()
@@ -151,7 +171,9 @@ public class PlayerController : MonoBehaviour, IAllyHumanoid
         // give player invincibility for a short time after taking damage
         isInvincible = true;
 
-        // animator.SetTrigger("hit");
+        // play sound
+        SoundManager.Instance.PlaySound(SoundType.HURT, transform);
+
         if (currentHealth <= 0)
         {
             OnDeath?.Invoke(this, EventArgs.Empty);

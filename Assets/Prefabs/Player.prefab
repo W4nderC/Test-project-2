@@ -57,6 +57,7 @@ MonoBehaviour:
   rotateSpeed: 30
   attackRange: 1.5
   inputActions: {fileID: -944628639613478452, guid: 1e1cae18047c33f4bb45e59238394b75, type: 3}
+  footstepTimerMax: 0.5
   playerAnimator: {fileID: 3756100839526273443}
   isWalking: 0
   canMove: 1

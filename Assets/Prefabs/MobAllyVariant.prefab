@@ -331,6 +331,7 @@ MonoBehaviour:
   isDead: 0
   isAttacking: 0
   isTakeDamage: 0
+  footstepTimerMax: 0.5
   col: {fileID: 6570053755366898589}
   attackCooldown: 2
 --- !u!114 &2906970772845597478
