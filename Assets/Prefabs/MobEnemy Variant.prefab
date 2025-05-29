@@ -362,6 +362,10 @@ PrefabInstance:
       value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8218644692715438157, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
+      propertyPath: hpRecoverCooldown
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8218644692715438157, guid: 443ebcd8d547e8a41a489985918a94ea, type: 3}
       propertyPath: attackTargetLayer.m_Bits
       value: 320
       objectReference: {fileID: 0}

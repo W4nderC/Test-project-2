@@ -17,5 +17,6 @@ MonoBehaviour:
   atk: 0
   health: 0
   atkSpeed: 0
+  healOverTime: 3
   buffPrefab: {fileID: 7155335147208632822, guid: 7bf959c37dbfd284db787b25da187331, type: 3}
-  description: Heal 1 HP every 1 second
+  description: Heal 1 HP every 2 second

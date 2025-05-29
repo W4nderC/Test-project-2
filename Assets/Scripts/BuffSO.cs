@@ -16,6 +16,7 @@ public class BuffSO : ScriptableObject
     public int atk;
     public int health;
     public float atkSpeed;
+    public float healOverTime;
     public GameObject buffPrefab;
     public string description;
 

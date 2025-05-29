@@ -32,6 +32,10 @@ public class EnemyController : MonoBehaviour, IEnemyHumanoid
     public float baseScale = 1f;         // Kích thước ở level 1
     public float scalePerLevel = 0.1f;
 
+    // health recover overtime
+    public float hpRecoverCooldown = 2f; // cooldown time between attacks
+    private float lastHPRecoverTime = -Mathf.Infinity;
+
     private bool spawnBuffVisual;
 
     [SerializeField] private HealthBar healthBar;
@@ -55,6 +59,10 @@ public class EnemyController : MonoBehaviour, IEnemyHumanoid
         if (level > 5)
         {
             AllpyBuffStat(level, 6, 2);
+        }
+        if (level > 7)
+        {
+            hpRecoverCooldown = 5 - BuffManager.Instance.buffSos[3].healOverTime; // Adjust cooldown based on buff
         }
 
         currentHealth = maxHealth;
@@ -97,6 +105,11 @@ public class EnemyController : MonoBehaviour, IEnemyHumanoid
         if (isDead) return;
 
         PlayFootstepSound();
+
+        if (Time.time < lastHPRecoverTime + hpRecoverCooldown) return;
+        currentHealth += 10;
+        lastHPRecoverTime = Time.time;
+        healthBar.UpdateHealthBar(maxHealth, currentHealth);
     }
 
     private void PlayFootstepSound()
